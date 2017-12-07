@@ -1,0 +1,24 @@
+//==========================================================================//
+// Creates global text items
+// $font-list is an array of all available font families
+// generates: .txt-Opensans-cond-light {font-family: "'Opensans-cond-light', Arial, Helvetica, sans-serif" !important; font-weight: normal !important; }
+//==========================================================================//
+/* font-family overrides */
+@each $family in $font-list {
+  $txt-temp-var: '.' + nth($family, 1);
+  #{$txt-temp-var} {
+    font-family: nth($family, 2) !important;
+    font-weight: nth($family, 3) !important;
+  }
+}
+
+/* force the smaller size font-family so it's readable */
+small, .small {
+    font-family: $secondary-font;
+}
+
+/* override oswald typeface for form interactions */
+label, input, textarea, select, textarea {
+    font-family: $secondary-font;
+}
+

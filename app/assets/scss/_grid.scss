@@ -1,0 +1,23 @@
+// Unsemantic Grid - Modified from https://unsemantic.com/
+// ============================================//
+
+// create @extends for components
+@include unsemantic-grid-placeholders;
+
+// base spacing around grid components
+// creates .grid-container that contains a max width for groups of markup
+@include unsemantic-grid-base(mobile, tablet, desktop);
+
+// default grid system 
+// useage: .grid-100, .grid-50, etc
+@include unsemantic-grid-scoped();
+
+// responsive grid systems
+// dev note: unsemantic-grid-placeholders has to be inside mixin b/c scss doesn't support setting them outside of @media
+// useage: .grid-100 .tablet-grid-50 .mobile-grid-100
+@each $key, $device in $cssBreakpoints {
+    @include media-query($key) {
+        @include unsemantic-grid-placeholders($key);
+        @include unsemantic-grid-scoped($key);
+    }
+}

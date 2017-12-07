@@ -1,0 +1,128 @@
+//==========================================================================//
+// Colors
+//==========================================================================//
+// base
+$black:        hsl(0, 0%, 4%) !default;
+$black-bis:    hsl(0, 0%, 7%) !default;
+$black-ter:    hsl(0, 0%, 14%) !default;
+
+$grey-darker:  hsl(0, 0%, 21%) !default;
+$grey-dark:    hsl(0, 0%, 29%) !default;
+$grey:         hsl(0, 0%, 48%) !default;
+$grey-light:   hsl(0, 0%, 71%) !default;
+$grey-lighter: hsl(0, 0%, 86%) !default;
+
+$white-ter:    hsl(0, 0%, 96%) !default;
+$white-bis:    hsl(0, 0%, 98%) !default;
+$white:        hsl(0, 0%, 100%) !default;
+
+$orange:       hsl(14,  100%, 53%) !default;
+$yellow:       hsl(48,  100%, 67%) !default;
+$green:        hsl(141, 71%,  48%) !default;
+$turquoise:    hsl(171, 100%, 41%) !default;
+$blue:         hsl(217, 71%,  53%) !default;
+$purple:       hsl(271, 100%, 71%) !default;
+$red:          hsl(348, 100%, 61%) !default;
+
+$light: $white-ter !default;
+$dark: $grey-darker !default;
+
+// Message colors
+$info: $blue !default;
+$success: $green !default;
+$warning: $yellow !default;
+$danger: $red !default;
+
+// Invert colors
+$orange-invert: findColorInvert($orange) !default;
+$yellow-invert: findColorInvert($yellow) !default;
+$green-invert: findColorInvert($green) !default;
+$turquoise-invert: findColorInvert($turquoise) !default;
+$blue-invert: findColorInvert($blue) !default;
+$purple-invert: findColorInvert($purple) !default;
+$red-invert: findColorInvert($red) !default;
+
+$primary: $turquoise !default;
+$primary-invert: $turquoise-invert !default;
+$info-invert: $blue-invert !default;
+$success-invert: $green-invert !default;
+$warning-invert: $yellow-invert !default;
+$danger-invert: $red-invert !default;
+$light-invert: $dark !default;
+$dark-invert: $light !default;
+
+// Code colors
+$code: $red !default;
+$code-background: $white-ter !default;
+$pre: $grey-dark !default;
+$pre-background: $white-ter !default;
+
+// Link colors
+$link: $primary !default;
+$link-invert: $primary-invert !default;
+$link-visited: $purple !default;
+
+$link-hover: $grey-darker !default;
+$link-hover-border: $grey-light !default;
+
+$link-focus: $grey-darker !default;
+$link-focus-border: $primary !default;
+
+$link-active: $grey-darker !default;
+$link-active-border: $grey-dark !default;
+
+// Style guide colors
+$brand-primary: $grey-dark !default;
+
+//==========================================================================//
+// Font Familes & Weights
+//==========================================================================//
+$font-opensans: 'Open Sans' !default;
+$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !default;
+$font-icons: 'Font Awesome' !default;
+$family-code: 'monospace' !default;
+$family-primary: $font-opensans !default;
+$family-secondary: $family-sans-serif !default;
+
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+$small-font-size: 10px !default;
+
+$primary-font: $font-opensans;
+$secondary-font: $font-opensans;
+
+$font-list : (
+  // each string separated by a tabbed space is an index.
+  // 'css-class name' 'font-family'  'font weight'
+
+  // families
+  "txt-opensans-light"      $font-opensans  $font-weight-light,
+  "txt-opensans-regular"    $font-opensans  $font-weight-normal,
+  "txt-opensans-semibold"   $font-opensans  $font-weight-semibold,
+  "txt-opensans-bold"       $font-opensans  $font-weight-bold,
+
+);
+
+//==========================================================================//
+// Media Query Sizes
+//==========================================================================//
+$mobile: 1px;
+$tablet: 768px;
+$desktop: 1200px;
+$cssBreakpoints: ("mobile": $mobile, "tablet": $tablet, "desktop": $desktop);
+//==========================================================================//
+// Overrides Stucture
+//==========================================================================//
+$directions: (
+  top,
+  right,
+  bottom,
+  left,
+) !default;
+
+$distances : (
+    //0, 5, 10, 15, 20, 25, 30, 33, 35, 40, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100
+    0, 5, 10, 15, 20, 25, 30, 35, 40
+);
