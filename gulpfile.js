@@ -71,9 +71,9 @@ gulp.task('less', function() {
         .pipe(gulp.dest(_settings.distPath))
 
         // minify
-        //.pipe(minifyCSS())
-        //.pipe(rename('style.less.min.css'))
-        //.pipe(gulp.dest(_settings.distPath))
+        .pipe(minifyCSS())
+        .pipe(rename('style.less.min.css'))
+        .pipe(gulp.dest(_settings.distPath))
         
         // reload sync
         .pipe(browserSync.stream());

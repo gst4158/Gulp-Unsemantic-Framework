@@ -176,60 +176,52 @@
 
 // resets all grid pairs
 .unsemantic-grid-reset() {
-    .grid-5,
-    .grid-33,
-    .grid-66,
-    .mobile-grid-5,
-    .mobile-grid-33,
-    .mobile-grid-66,
-    .tablet-grid-5,
-    .tablet-grid-33,
-    .desktop-grid-66,
-    .desktop-grid-33,
-    .desktop-grid-66 {
-        position: relative;
-        box-sizing: border-box;
-        .unsemantic-container-gutter(@container-gutter);
-    }
     
-    .grid-builder-all (@i: 1, @num: (@i * 5), @columnCount: 20) when (@i =< @columnCount) {
-        //we are going to use this class twice, so just calculate it once
-        @gridClass: ~'grid-@{num}';
-    
-        //this is your extender feature, which does not do so for the initial .grid_1
-        //which was set above as our launch point.
+    .grid-builder-all (@i: 1, @num: 5, @gridCount: 20, @scope: ~'') when (@i =< @gridCount) {
+        @key: @scope;
+        @setNum: (@i * @num);
+        
+        // set grid key   
+        @gridClass: ~'@{scope}grid-@{setNum}';
+
+        //Extend loop
         .@{gridClass} {
-            .extender() when (@i > 1) {
-                &:extend(.grid-5 all);
+            .extender() when (@i > 0) {
+                &:extend(.unsemantic-grid-all all);
+                &:before,
+                &:after {
+                    .if-mobile(@key);
+                    .if-mobile(@condition) when (@condition = mobile-), (@condition = ~'') {
+                        &:extend(.unsemantic-grid-all-clearfix all);
+                        
+                    }
+                }
+
             }
             .extender();
         }
-    
-        // responsive states - we can't use variables here b/c less doesn't let you use variables with extends
-        .mobile-@{gridClass} {
-            .extender() when (@i > 1) {
-                &:extend(.mobile-grid-5 all);
-            }
-            .extender();
-        }
-        .tablet-@{gridClass} {
-            .extender() when (@i > 1) {
-                &:extend(.tablet-grid-5 all);
-            }
-            .extender();
-        }
-        .desktop-@{gridClass} {
-            .extender() when (@i > 1) {
-                &:extend(.desktop-grid-5 all);
-            }
-            .extender();
-        }
-    
-        //iterate the loop just as you were doing
-        .grid-builder-all(@i + 1);
+
+        // counter
+        .grid-builder-all(@i + 1, @num, @gridCount, @scope: @key);
     }
+
     //call the loop starting at 1
     .grid-builder-all();
+    .grid-builder-all(@num: 33, @gridCount: 2);
+
+    // responsive mixin
+    .each-device(@i: length(@cssBreakpoints)) when (@i > 0) {
+        // counter
+        .each-device(@i - 1);
+
+        // get key from variable array
+        @key: e(extract(extract(@cssBreakpoints, @i),1));
+
+        // run grid builder
+        .grid-builder-all(@scope: ~'@{key}-');
+        .grid-builder-all(@num: 33, @gridCount: 2, @scope: ~'@{key}-');
+    }
+    .each-device();
 }
 
 // clearfix for :before/:after psuedo classes
@@ -293,6 +285,7 @@
     }
 }
 
+// push/pull markup generation
 .if-unsemantic-push-pull-support(@condition, @scope, @num, @percent) when (@condition = true) {
     // Push columns forward.
     .@{scope}push-@{num} {
@@ -303,4 +296,14 @@
     .@{scope}pull-@{num} {
         @{lang-forward}: (@percent * -1);
     }
+}
+
+// :extend markup - used to place styles on all grid styles at once
+.unsemantic-grid-all {
+    position: relative;
+    box-sizing: border-box;
+    .unsemantic-container-gutter(@container-gutter);
+}
+.unsemantic-grid-all-clearfix {
+    .unsemantic-clearfix();
 }
