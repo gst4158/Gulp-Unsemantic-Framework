@@ -43,6 +43,7 @@ gulp.task('browser-sync', function() {
 gulp.task('sass', function() {
     return gulp.src(_settings.assetsPath + '/scss/style.scss')
         .pipe(sass())
+        .on('error', swallowError)
         .pipe(autoprefixer())
 
         // non-minified
@@ -61,6 +62,7 @@ gulp.task('sass', function() {
 gulp.task('less', function() {
     return gulp.src(_settings.assetsPath + '/less/style.less')
         .pipe(less())
+        .on('error', swallowError)
         .pipe(autoprefixer())
 
         // non-minified
@@ -81,6 +83,7 @@ gulp.task('less', function() {
 gulp.task('js', function () {
     return gulp.src(_settings.assetsPath + '/js/*js')
         .pipe(concat('script.js'))
+        .on('error', swallowError)
 
         // non-minified
         .pipe(gulp.dest(_settings.distPath))
@@ -95,4 +98,11 @@ gulp.task('js', function () {
 
 });
 
+// Prevent errors from crashing gulp instance
+function swallowError (error) {
+    // error details
+    console.log(error.toString())
+
+    this.emit('end')
+}
 gulp.task('default', ['browser-sync']);

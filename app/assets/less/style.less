@@ -1,7 +1,35 @@
-body {
-    background: green;
-    color: #ffffff;
-    h2 {
-        color: tan;
-    }
+//==========================================================================//
+// Imports
+//==========================================================================//
+// custom imports
+@import '_helpers/_variables.less';
+@import '_helpers/_mixins.less';
+
+// Reset:
+// ============================================//
+@import "_reset.less";
+
+// Grid:
+// ============================================//
+@import "_helpers/_grid_partials.less";
+@import "_grid.less";
+
+//==========================================================================//
+// Start custom code here
+//==========================================================================//
+.example-block {
+    background: #eee;
+    font-size: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+div[class*="pull-"] section {
+    background: #fcd;
+}
+
+div[class*="push-"] section {
+    background: #dec;
 }

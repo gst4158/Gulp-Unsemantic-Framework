@@ -1,0 +1,18 @@
+//==========================================================================//
+// Font Family Generator
+// How to use: @include font-face(@font-open-sans, 'fonts/open-sans.ttf', @font-weight-normal) {}
+//==========================================================================//
+// defaults to open sans and normal font weight
+.font-face( @family, @filepath, @weight:normal ) {
+  @font-face {
+      font-family: @family;
+      src: url(~'@{filepath}.eot');
+      src: local('\263A'),
+        url(~'@{filepath}.eot#iefix') format('embedded-opentype'),
+        url(~'@{filepath}.woff') format('woff'),
+        url(~'@{filepath}.ttf') format('truetype'),
+        url(~'@{filepath}.svg#open_sansbold') format('svg');
+      font-weight: @weight;
+      font-style: normal;
+  }
+}
