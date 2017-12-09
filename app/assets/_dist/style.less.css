@@ -2049,6 +2049,68 @@ input,
     display: none !important;
   }
 }
+@font-face {
+  font-family: 'Font Awesome';
+  src: url(../fonts/fontawesome-webfont.eot);
+  src: local('\263A'), url(../fonts/fontawesome-webfont.eot#iefix) format('embedded-opentype'), url(../fonts/fontawesome-webfont.woff) format('woff'), url(../fonts/fontawesome-webfont.ttf) format('truetype'), url(../fonts/fontawesome-webfont.svg#open_sansbold) format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url(../fonts/opensans-light-webfont.eot);
+  src: local('\263A'), url(../fonts/opensans-light-webfont.eot#iefix) format('embedded-opentype'), url(../fonts/opensans-light-webfont.woff) format('woff'), url(../fonts/opensans-light-webfont.ttf) format('truetype'), url(../fonts/opensans-light-webfont.svg#open_sansbold) format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url(../fonts/opensans-regular-webfont.eot);
+  src: local('\263A'), url(../fonts/opensans-regular-webfont.eot#iefix) format('embedded-opentype'), url(../fonts/opensans-regular-webfont.woff) format('woff'), url(../fonts/opensans-regular-webfont.ttf) format('truetype'), url(../fonts/opensans-regular-webfont.svg#open_sansbold) format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url(../fonts/opensans-bold-webfont.eot);
+  src: local('\263A'), url(../fonts/opensans-bold-webfont.eot#iefix) format('embedded-opentype'), url(../fonts/opensans-bold-webfont.woff) format('woff'), url(../fonts/opensans-bold-webfont.ttf) format('truetype'), url(../fonts/opensans-bold-webfont.svg#open_sansbold) format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url(../fonts/opensans-semibold-webfont.eot);
+  src: local('\263A'), url(../fonts/opensans-semibold-webfont.eot#iefix) format('embedded-opentype'), url(../fonts/opensans-semibold-webfont.woff) format('woff'), url(../fonts/opensans-semibold-webfont.ttf) format('truetype'), url(../fonts/opensans-semibold-webfont.svg#open_sansbold) format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 10px;
+}
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2.5rem;
+}
+h3 {
+  font-size: 2rem;
+}
+h4 {
+  font-size: 1.5rem;
+}
+h5,
+h6 {
+  font-size: 1rem;
+}
+p {
+  margin-bottom: 10px;
+}
 .example-block {
   background: #eee;
   font-size: 10px;

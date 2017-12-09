@@ -91,20 +91,13 @@
 // Media Query Sizes
 //==========================================================================//
 @mobile: 1px;
+@mobileMax: (@tablet - 1);
 @tablet: 768px;
+@tabletMax: (@desktop - 1);
 @desktop: 1200px;
 @cssBreakpoints: "mobile" @mobile, "tablet" @tablet, "desktop" @desktop;
-//==========================================================================//
-// Overrides Stucture
-//==========================================================================//
-@directions: 
-  top,
-  right,
-  bottom,
-  left,
-;
-
-@distances: 
-    //0, 5, 10, 15, 20, 25, 30, 33, 35, 40, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100
-    0, 5, 10, 15, 20, 25, 30, 35, 40
-;
+@cssBreakpointsMedia:
+  "mobile"        ~'@media screen and (max-width: @{mobileMax})',
+  "tablet"        ~'@media screen and (min-width: @{tablet}) and (max-width: @{tabletMax})',
+  "tablet-and-up" ~'@media screen and (min-width: @{tablet})',
+  "desktop"       ~'@media screen and (min-width: @{desktop})';

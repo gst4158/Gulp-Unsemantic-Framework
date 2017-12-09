@@ -1,6 +1,19 @@
 //==========================================================================//
 // Unsemantic Grid - Modified from https://unsemantic.com/
 //==========================================================================//
+// responsive mixin
+// TODO - replace seperate media queries below with loop
+.grid-each-device(@i: length(@cssBreakpointsMedia)) when (@i > 0) {
+    // counter
+    .grid-each-device(@i - 1);
+
+    // get key from variable array
+    @key: e(extract(extract(@cssBreakpointsMedia, @i),1));
+    @value: e(extract(extract(@cssBreakpointsMedia, @i),2));
+
+}
+.grid-each-device();
+
 // lets grids reset to full on mobile layout
 @media screen and (min-width: (@tablet)) {
     .unsemantic-grid();
