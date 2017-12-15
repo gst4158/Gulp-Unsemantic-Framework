@@ -97,7 +97,7 @@
 @desktop: 1200px;
 @cssBreakpoints: "mobile" @mobile, "tablet" @tablet, "desktop" @desktop;
 @cssBreakpointsMedia:
-  "mobile"        ~'@media screen and (max-width: @{mobileMax})',
-  "tablet"        ~'@media screen and (min-width: @{tablet}) and (max-width: @{tabletMax})',
-  "tablet-and-up" ~'@media screen and (min-width: @{tablet})',
-  "desktop"       ~'@media screen and (min-width: @{desktop})';
+  "tablet-and-up" ~'screen and (min-width: @{tablet})', // make this first so grid render formats in right order
+  "mobile"        ~'screen and (max-width: @{mobileMax})',
+  "tablet"        ~'screen and (min-width: @{tablet}) and (max-width: @{tabletMax})',
+  "desktop"       ~'screen and (min-width: @{desktop})';

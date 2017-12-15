@@ -1,35 +1,17 @@
 //==========================================================================//
 // Unsemantic Grid - Modified from https://unsemantic.com/
 //==========================================================================//
-// responsive mixin
-// TODO - replace seperate media queries below with loop
-.grid-each-device(@i: length(@cssBreakpointsMedia)) when (@i > 0) {
-    // counter
-    .grid-each-device(@i - 1);
+// ===========
+// Import helper functions
+// ===========
+@import "_helpers/_grid_partials.less";
 
-    // get key from variable array
-    @key: e(extract(extract(@cssBreakpointsMedia, @i),1));
-    @value: e(extract(extract(@cssBreakpointsMedia, @i),2));
+// ===========
+// Reset grid
+// ===========
+.unsemantic-grid--reset();
 
-}
-.grid-each-device();
-
-// lets grids reset to full on mobile layout
-@media screen and (min-width: (@tablet)) {
-    .unsemantic-grid();
-}
-
-// mobile grid
-@media screen and (max-width: (@tablet - 1)) {
-    .unsemantic-grid('mobile');
-}
-
-// tablet grid
-@media screen and (min-width: (@tablet - 1)) and (max-width: (@desktop - 1)) {
-    .unsemantic-grid('tablet');
-}
-
-// desktop grid
-@media screen and (min-width: @desktop) {
-    .unsemantic-grid('desktop');
-}
+// ===========
+// Build Grid
+// ===========
+.unsemantic-grid--build();

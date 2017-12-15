@@ -1,9 +1,18 @@
 //==========================================================================//
 // Semantic Grid Variables
 //==========================================================================//
+// allow grid to be build - turn these off to disable grid
+@unsemantic-grid--reset: true;
+@unsemantic-grid--build: true;
+
+// allow creation of grid wrappers 
+@unsemantic-grid-container-scope: true;
+
+// allow left/margin-left push/pull mechanics
 @unsemantic-prefix-suffix-support: true;
 @unsemantic-push-pull-support: true;
-@unsemantic-grid-container-scope: true;
+
+// spacing variables
 @container-max-width: 1200px;
 @gutter-half: 10px;
 @container-gutter: @gutter-half;
@@ -15,50 +24,131 @@
 //==========================================================================//
 
 // ===========
-// Forces a reset on all grid sizes
+// Responsive Grid Loop
+// Dependency: @param - @cssBreakpointsMedia
 // ===========
-.unsemantic-grid-reset();
+.unsemantic-grid--build(@i: length(@cssBreakpointsMedia)) when (@i > 0) and (@unsemantic-grid--build = true) {
+    // counter
+    .unsemantic-grid--build(@i - 1);
+
+    // get key from variable array
+    @key: e(extract(extract(@cssBreakpointsMedia, @i),1));
+    @value: e(extract(extract(@cssBreakpointsMedia, @i),2));
+
+    @media @value {
+        .if-scope(@key);
+
+        // default grid
+        .if-scope(@condition) when (@condition = tablet-and-up) {
+            .unsemantic-grid--scope();
+        }
+
+        // responsive grid
+        .if-scope(@condition) when not (@condition = tablet-and-up) {
+            .unsemantic-grid--scope(@key);
+        }
+    }
+}
+
+// ===========
+// Resets grid
+// ===========
+.unsemantic-grid--reset() when (@unsemantic-grid--reset = true) {
+    
+    .unsemantic-grid--cascade (@i: 1, @num: 5, @gridCount: 20, @scope: ~'') when (@i =< @gridCount) {
+        @key: @scope;
+        @setNum: (@i * @num);
+        
+        // set grid key   
+        @gridClass: ~'@{scope}grid-@{setNum}';
+
+        //Extend loop
+        .@{gridClass} {
+            .extender() when (@i > 0) {
+                &:extend(.unsemantic-grid-all all);
+                &:before,
+                &:after {
+                    .if-mobile(@key);
+                    .if-mobile(@condition) when (@condition = mobile-), (@condition = ~'') {
+                        &:extend(.unsemantic-grid-all-clearfix all);
+                        
+                    }
+                }
+
+            }
+            .extender();
+        }
+
+        // counter
+        // Dev note: Variable scope is set here. Setting it at .unsemantic-grid--cascade() init does nothing
+        //           Example: @scope being assigned to @key updates the .extender() mixin.
+        .unsemantic-grid--cascade(@i + 1, @num, @gridCount, @scope: @key);
+    }
+
+    // build grid 5-95
+    .unsemantic-grid--cascade();
+    // build grid 33, 66
+    .unsemantic-grid--cascade(@num: 33, @gridCount: 2);
+
+    // responsive mixin
+    .each-device(@i: length(@cssBreakpoints)) when (@i > 0) and (@cssBreakpoints) {
+        // counter
+        .each-device(@i - 1);
+
+        // get key from variable array
+        @key: e(extract(extract(@cssBreakpoints, @i),1));
+
+        // run grid builder
+        .unsemantic-grid--cascade(@scope: ~'@{key}-'); // 5-95
+        .unsemantic-grid--cascade(@num: 33, @gridCount: 2, @scope: ~'@{key}-'); // 33, 66
+    }
+    .each-device();
+
+    // generate default :extend classes
+    .unsemantic-grid-extend--all();
+    .unsemantic-grid-extend--clearfix();
+}
 
 // ===========
 // Determines if prefix scope variable will be added in front of grid parts
 // ===========
-.unsemantic-grid(@SCOPE: null) {
+.unsemantic-grid--scope(@SCOPE: null) when (@unsemantic-grid--build = true) {
     @scope: ~'';
 
     // If @SCOPE is NOT set
     // generates: .grid-100, .pull-50
-    .grid-builder() when (@SCOPE = null) {
+    .unsemantic-grid--builder() when (@SCOPE = null) {
 
         // build grid-based system - must come first
-        .unsemantic-grid-builder(@scope);
+        .unsemantic-grid--builder(@scope);
 
         // grid-wrapper markup
-        .unsemantic-grid-container(@scope);
+        .unsemantic-grid--container(@scope);
     }
 
     // If @SCOPE is set
     // generates: .tablet-grid-100, .desktop-pull-50
-    .grid-builder() when not (@SCOPE = null) {
+    .unsemantic-grid--builder() when not (@SCOPE = null) {
         @scope: ~'@{SCOPE}-';
 
         // build grid-based system - must come first
-        .unsemantic-grid-builder(@scope);
+        .unsemantic-grid--builder(@scope);
 
         // grid-wraper markup - only runs if variable is set to true
         .if-set(@unsemantic-grid-container-scope);
         .if-set(@condition) when (@condition = true) {
-            .unsemantic-grid-container(@scope);
+            .unsemantic-grid--container(@scope);
         }
     }
 
-    // run grid-builder()
-    .grid-builder();
+    // run unsemantic-grid--builder()
+    .unsemantic-grid--builder();
 }
 
 // ===========
 // Generates grid containers
 // ===========
-.unsemantic-grid-container(@scope) {
+.unsemantic-grid--container(@scope) {
 
     // container
     .@{scope}grid-container {
@@ -102,23 +192,34 @@
     }
 
     // hide whole container on desktop/tablet/mobile-hide
-    .@{scope}hide,
-    .@{scope}hidden {
-        display: none !important;
+    .if-hide(@scope);
+    .if-hide(@condition) when (@condition = ~'') {
+        .desktop-hide,
+        .desktop-hidden {
+            display: none !important;
+        }
     }
+
+    .if-hide(@condition) when not (@condition = ~'') {
+        .@{scope}hide,
+        .@{scope}hidden {
+            display: none !important;
+        }
+    }
+
 }
 
 // ===========
 // generates the css markup for the grid
 // example: .grid-50, .mobile-grid-100, .tablet-grid-50, .desktop-grid-100
 // ===========
-.unsemantic-grid-builder(@scope) {
+.unsemantic-grid--builder(@scope) {
 
     // For 5 through 95 percent.
-    .unsemantic-grid-builder-fifth(@scope);
-    .unsemantic-grid-builder-fifth(@scope, @i: 19) when (@i > 0) {
+    .unsemantic-grid--builder-fifth(@scope);
+    .unsemantic-grid--builder-fifth(@scope, @i: 19) when (@i > 0) {
         // counter
-        .unsemantic-grid-builder-fifth(@scope, @i - 1);
+        .unsemantic-grid--builder-fifth(@scope, @i - 1);
         
         // variables
         @num: @i * 5;
@@ -139,10 +240,10 @@
     }
 
     // For one-third and two-thirds.
-    .unsemantic-grid-builder-third(@scope);
-    .unsemantic-grid-builder-third(@scope, @i: 2) when (@i > 0) {
+    .unsemantic-grid--builder-third(@scope);
+    .unsemantic-grid--builder-third(@scope, @i: 2) when (@i > 0) {
         // counter
-        .unsemantic-grid-builder-third(@scope, @i - 1);
+        .unsemantic-grid--builder-third(@scope, @i - 1);
         
         // variables
         @num: (@i * 33);
@@ -173,57 +274,6 @@
 
 // Grid Components/Mixin Builders
 // ============================================//
-
-// resets all grid pairs
-.unsemantic-grid-reset() {
-    
-    .grid-builder-all (@i: 1, @num: 5, @gridCount: 20, @scope: ~'') when (@i =< @gridCount) {
-        @key: @scope;
-        @setNum: (@i * @num);
-        
-        // set grid key   
-        @gridClass: ~'@{scope}grid-@{setNum}';
-
-        //Extend loop
-        .@{gridClass} {
-            .extender() when (@i > 0) {
-                &:extend(.unsemantic-grid-all all);
-                &:before,
-                &:after {
-                    .if-mobile(@key);
-                    .if-mobile(@condition) when (@condition = mobile-), (@condition = ~'') {
-                        &:extend(.unsemantic-grid-all-clearfix all);
-                        
-                    }
-                }
-
-            }
-            .extender();
-        }
-
-        // counter
-        .grid-builder-all(@i + 1, @num, @gridCount, @scope: @key);
-    }
-
-    //call the loop starting at 1
-    .grid-builder-all();
-    .grid-builder-all(@num: 33, @gridCount: 2);
-
-    // responsive mixin
-    .each-device(@i: length(@cssBreakpoints)) when (@i > 0) {
-        // counter
-        .each-device(@i - 1);
-
-        // get key from variable array
-        @key: e(extract(extract(@cssBreakpoints, @i),1));
-
-        // run grid builder
-        .grid-builder-all(@scope: ~'@{key}-');
-        .grid-builder-all(@num: 33, @gridCount: 2, @scope: ~'@{key}-');
-    }
-    .each-device();
-}
-
 // clearfix for :before/:after psuedo classes
 .unsemantic-clearfix() {
     content: ".";
@@ -299,11 +349,16 @@
 }
 
 // :extend markup - used to place styles on all grid styles at once
-.unsemantic-grid-all {
-    position: relative;
-    box-sizing: border-box;
-    .unsemantic-container-gutter(@container-gutter);
+.unsemantic-grid-extend--all() {
+    .unsemantic-grid-all {
+        position: relative;
+        box-sizing: border-box;
+        .unsemantic-container-gutter(@container-gutter);
+    }
 }
-.unsemantic-grid-all-clearfix {
-    .unsemantic-clearfix();
+
+.unsemantic-grid-extend--clearfix() {
+    .unsemantic-grid-all-clearfix {
+        .unsemantic-clearfix();
+    }
 }
