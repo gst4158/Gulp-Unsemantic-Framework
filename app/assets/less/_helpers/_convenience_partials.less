@@ -36,7 +36,6 @@
 .convenience--spacing-builder(@scope: ~'') {
     @directions: top, right, bottom, left;
 
-    /* ----- */
     // loop through each direction creating padding/margin classes
     .convenience--spacing-direction(@scope);
     .convenience--spacing-direction(@scope, @i: length(@directions)) when (@i > 0) {

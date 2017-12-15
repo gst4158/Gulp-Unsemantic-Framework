@@ -2645,7 +2645,7 @@ input,
   margin-right: 40px !important;
 }
 @media screen and (max-width: 767px) {
-  /* ----- */
+
   .mobile-padding-top-5 {
     padding-top: 5px !important;
   }
@@ -3352,7 +3352,7 @@ input,
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1199px) {
-  /* ----- */
+
   .tablet-padding-top-5 {
     padding-top: 5px !important;
   }
@@ -4059,7 +4059,7 @@ input,
   }
 }
 @media screen and (min-width: 1200px) {
-  /* ----- */
+
   .desktop-padding-top-5 {
     padding-top: 5px !important;
   }
