@@ -1,3 +1,7 @@
+//==========================================================================//
+// Typography LESS Markup
+//==========================================================================//
+
 // Generate font-face styles
 // ============================================//
 .font-face(@font-icons,    '../fonts/fontawesome-webfont',      @font-weight-normal);
@@ -5,6 +9,28 @@
 .font-face(@font-opensans, '../fonts/opensans-regular-webfont', @font-weight-normal);
 .font-face(@font-opensans, '../fonts/opensans-bold-webfont',    @font-weight-semibold);
 .font-face(@font-opensans, '../fonts/opensans-semibold-webfont',@font-weight-bold);
+
+// Override classes
+// .txt-opensans-light, .txt-opensans-normal, etc...
+// ============================================//
+.font--overrides();
+.font--overrides(@i: length(@font-list)) when (@i > 0){
+    @object: @font-list;
+
+    // counter
+    .font--overrides(@i - 1);
+
+    // get key from variable array
+    @rule:   e(extract(extract(@object, @i),1));
+    @family:   extract(extract(@object, @i),2);
+    @weight: e(extract(extract(@object, @i),3));
+
+    .@{rule} {
+        font-family: @family !important;
+        font-weight: @weight !important;
+    }
+
+}
 
 //==========================================================================//
 // Typography set ups
