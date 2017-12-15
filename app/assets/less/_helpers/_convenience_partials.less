@@ -1,0 +1,103 @@
+//==========================================================================//
+// Convenience classes
+//==========================================================================//
+
+// Allow margin/padding to be built
+// Turn this off to disable convenience classes
+@convenience--spacing: true;
+
+//==========================================================================//
+// Padding/Margin responsive mixins
+//==========================================================================//
+.convenience--spacing-responsive(@i: length(@cssBreakpointsMedia)) when (@i > 0) and (@convenience--spacing) {
+    // counter
+    .convenience--spacing-responsive(@i - 1);
+
+    // get key from variable array
+    @key: e(extract(extract(@cssBreakpointsMedia, @i),1));
+    @value: e(extract(extract(@cssBreakpointsMedia, @i),2));
+
+    // default
+    .run-once(@i);
+    .run-once(@condition) when (@condition <= 1) {
+        .convenience--spacing-builder();
+    }
+
+    // responsive
+    @media @value {
+        .if-scope(@key);
+
+        .if-scope(@condition) when not (@condition = tablet-and-up) {
+            .convenience--spacing-builder(~'@{key}-');
+        }
+    }
+}
+
+.convenience--spacing-builder(@scope: ~'') {
+    @directions: top, right, bottom, left;
+
+    /* ----- */
+    // loop through each direction creating padding/margin classes
+    .convenience--spacing-direction(@scope);
+    .convenience--spacing-direction(@scope, @i: length(@directions)) when (@i > 0) {
+        // counter
+        .convenience--spacing-direction(@scope, @i - 1);
+
+        // get direction
+        @direction: e(extract(@directions, @i),1);
+
+        // 5-40 classes
+        .convenience--spacing-builder(@scope, @direction);
+        .convenience--spacing-builder-shorthand(@scope);
+        
+    }
+
+    // class rule generator to combine direction + length
+    // generates class such as .tablet-padding-left-25: {padding-left: 25px;}
+    .convenience--spacing-builder(@scope, @direction, @multiplier: 5, @i: 8) when (@i > 0) {
+        // counter
+        .convenience--spacing-builder(@scope, @direction, @multiplier, @i - 1);
+
+        // generate padding/margin
+        @num: (@i * @multiplier);
+        .@{scope}padding-@{direction}-@{num} {
+            padding-@{direction}: (@num * 1px) !important;
+        }
+
+        .@{scope}margin-@{direction}-@{num} {
+            margin-@{direction}: (@num * 1px) !important;
+        }
+    }
+
+    // class rule generator to combine direction + length
+    // generates class such as .tablet-vertical-left-25: {padding-top: 25px; padding-bottom: 25px;}
+    .convenience--spacing-builder-shorthand(@scope, @multiplier: 5, @i: 8) when (@i > 0) {
+        // counter
+        .convenience--spacing-builder-shorthand(@scope, @multiplier, @i - 1);
+
+        // generate padding/margin
+        @num: (@i * @multiplier);
+        .@{scope}padding-vertical-@{num} {
+            padding-top: (@num * 1px) !important;
+            padding-bottom: (@num * 1px) !important;
+        }
+
+        .@{scope}padding-horizontal-@{num} {
+            padding-left: (@num * 1px) !important;
+            padding-right: (@num * 1px) !important;
+        }
+
+        .@{scope}margin-vertical-@{num} {
+            margin-top: (@num * 1px) !important;
+            margin-bottom: (@num * 1px) !important;
+        }
+
+        .@{scope}margin-horizontal-@{num} {
+            margin-left: (@num * 1px) !important;
+            margin-right: (@num * 1px) !important;
+        }
+
+    }
+
+}
+    
